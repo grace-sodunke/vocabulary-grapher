@@ -3,10 +3,10 @@ import json
 import numpy as np
 import urllib.request
 from gensim.models import KeyedVectors
-from google.colab import drive
+import os
+import tensorflow as tf
+from tensorboard.plugins import projector
 
-drive.mount('/content/drive')
-#Include code for mounting drive if this isn't already done, and error handling
 model = KeyedVectors.load_word2vec_format('/content/drive/MyDrive/Colab Notebooks/GoogleNews-vectors-negative300.bin.gz', binary=True)
 
 def load_words():
@@ -22,9 +22,7 @@ dict_words = load_words()
 centre_word = "happy"
 axis_words = ["formal", "enthusiastic", "mellow"]
 
-# ERROR HANDLING: Are the centre/axis words in the model??
-# Run a for loop once to check all dictionary words are in the model, print outliers
-# and remove
+# ERROR HANDLING: Are the centre/axis words in the model?
 
 n = len(axis_words)
 centre_word_pos = {centre_word: np.zeros(n, dtype=int)}
@@ -85,11 +83,6 @@ except Exception:
   pass
 
 # %load_ext tensorboard
-
-import os
-import tensorflow as tf
-import tensorflow_datasets as tfds
-from tensorboard.plugins import projector
 
 log_dir='/logs'
 if not os.path.exists(log_dir):
